@@ -1,0 +1,109 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<style>
+    /* Estilo del contenedor del formulario */
+    .form-container {
+        background-color: #1a1a1a;
+        padding: 40px;
+        border-radius: 15px;
+        border: 1px solid #333;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Cada bloque de campo (etiqueta + input + error) */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Estilo de las etiquetas */
+    .form-label {
+        color: #d4af37; /* Dorado */
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    /* Estilo de los inputs (cuadros de texto) */
+    .form-input input {
+        width: 100%;
+        background-color: #262626 !important;
+        border: 1px solid #444 !important;
+        color: white !important;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    /* ESTO ES LO QUE BUSCÁBAMOS: El error abajo y ROJO */
+    .error-msg {
+        color: #ff4d4d !important;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        font-weight: bold;
+        display: block;
+    }
+
+    /* Letra chica de ayuda */
+    .help-msg {
+        color: #888;
+        font-size: 0.75rem;
+        margin-top: 5px;
+        line-height: 1.4;
+    }
+
+    .help-msg ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 form-container">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-warning">CREAR CUENTA</h2>
+                <div style="width: 50px; height: 2px; background: #d4af37; margin: 10px auto;"></div>
+            </div>
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div class="form-group">
+                    <!-- 1. Etiqueta -->
+                    <label class="form-label">{{ field.label }}</label>
+                    
+                    <!-- 2. Cuadro de texto -->
+                    <div class="form-input">
+                        {{ field }}
+                    </div>
+
+                    <!-- 3. Mensajes de Error (Aparecen acá abajo en rojo) -->
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <span class="error-msg text-danger">⚠️ {{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- 4. Letra chica de ayuda -->
+                    {% if field.help_text %}
+                        <div class="help-msg">
+                            {{ field.help_text|safe }}
+                        </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-warning w-100 fw-bold mt-4 py-2">REGISTRARME</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="small text-white-50">¿Ya tenés cuenta? <a href="{% url 'login' %}" class="text-warning text-decoration-none">Iniciá sesión acá</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

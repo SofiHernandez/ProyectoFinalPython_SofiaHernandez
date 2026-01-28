@@ -1,0 +1,116 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<style>
+    /* Estilo del contenedor */
+    .edit-container {
+        background-color: #1a1a1a;
+        padding: 40px;
+        border-radius: 15px;
+        border: 1px solid #333;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-label {
+        color: #d4af37; /* Dorado */
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    /* Estilo de los cuadros de texto */
+    input, textarea {
+        width: 100%;
+        background-color: #262626 !important;
+        border: 1px solid #444 !important;
+        color: white !important;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    input[type="file"] {
+        border: none !important;
+        background: transparent !important;
+        color: #888;
+        padding: 0;
+    }
+
+    .error-msg {
+        color: #ff4d4d !important;
+        font-size: 0.8rem;
+        margin-top: 5px;
+        font-weight: bold;
+        display: block;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="edit-container">
+                
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-warning text-uppercase">Editar Perfil</h2>
+                    <p class="text-white-50">Actualizá tu información personal y foto de viajero</p>
+                    <div style="width: 50px; height: 2px; background: #d4af37; margin: 10px auto;"></div>
+                </div>
+
+                <!-- IMPORTANTE: enctype para la subida de la imagen -->
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <!-- COLUMNA 1: Datos de Cuenta -->
+                        <div class="col-md-6 pe-md-4 border-end border-secondary">
+                            <h5 class="text-white mb-4 small fw-bold text-uppercase opacity-75">Información de Cuenta</h5>
+                            
+                            {% for field in u_form %}
+                            <div class="form-group">
+                                <label class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <span class="error-msg">⚠️ {{ error }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- COLUMNA 2: Bio y Redes -->
+                        <div class="col-md-6 ps-md-4">
+                            <h5 class="text-white mb-4 small fw-bold text-uppercase opacity-75">Tu Biografía y Foto</h5>
+                            
+                            {% for field in p_form %}
+                            <div class="form-group">
+                                <label class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <span class="error-msg">⚠️ {{ error }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5 d-grid gap-2 d-md-flex justify-content-md-center">
+                        <button type="submit" class="btn btn-warning px-5 fw-bold py-2 shadow">
+                            💾 GUARDAR CAMBIOS
+                        </button>
+                        <a href="{% url 'profile' %}" class="btn btn-outline-secondary px-5 py-2">
+                            CANCELAR
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

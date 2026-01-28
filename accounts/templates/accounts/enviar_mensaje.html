@@ -1,0 +1,37 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="bg-dark p-5 rounded border border-secondary shadow-lg">
+                <h2 class="text-warning fw-bold text-center mb-4 text-uppercase">Enviar Mensaje</h2>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="text-warning small fw-bold text-uppercase mb-2 d-block">¿A quién querés escribirle?</label>
+                        <select name="receptor" class="form-select bg-dark text-white border-secondary p-3">
+                            {% for u in usuarios %}
+                                <option value="{{ u.id }}" {% if destinatario_fijo and destinatario_fijo.id == u.id %}selected{% endif %}>
+                                    {{ u.get_full_name|default:u.username }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="text-warning small fw-bold text-uppercase mb-2 d-block">Tu consulta o mensaje</label>
+                        <textarea name="contenido" class="form-control bg-dark text-white border-secondary p-3" rows="6" placeholder="Escribí aquí..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100 fw-bold py-3 shadow">
+                        🚀 ENVIAR AHORA
+                    </button>
+                    <a href="{% url 'inbox' %}" class="btn btn-link text-muted w-100 mt-2 text-decoration-none">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

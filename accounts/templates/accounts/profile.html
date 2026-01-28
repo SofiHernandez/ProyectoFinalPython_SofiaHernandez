@@ -1,0 +1,64 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="bg-dark rounded shadow-lg overflow-hidden border border-secondary">
+                
+                <!-- Header del Perfil con degradado -->
+                <div style="background: linear-gradient(45deg, #121212, #1a1a1a); padding: 60px 0; border-bottom: 2px solid #d4af37;" class="text-center">
+                    {% if user.profile.imagen %}
+                        <img src="{{ user.profile.imagen.url }}" class="rounded-circle border border-warning shadow-lg mb-3" style="width: 180px; height: 180px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto shadow-lg mb-3 border border-warning" style="width: 180px; height: 180px; font-size: 5rem; color: #121212;">👤</div>
+                    {% endif %}
+                    
+                    <h1 class="display-5 fw-bold text-white text-uppercase" style="letter-spacing: 2px;">{{ user.get_full_name|default:user.username }}</h1>
+                    <p class="text-warning fw-bold mb-0">@{{ user.username }}</p>
+                </div>
+
+                <div class="p-5">
+                    <div class="row">
+                        <!-- BIOGRAFÍA -->
+                        <div class="col-md-7 border-end border-secondary pe-md-5">
+                            <h5 class="text-warning small fw-bold text-uppercase mb-3" style="letter-spacing: 2px;">Sobre mí</h5>
+                            <p class="text-light fs-5" style="line-height: 1.6;">
+                                {{ user.profile.descripcion|default:"Este viajero aún no ha escrito su biografía..." }}
+                            </p>
+                            
+                            {% if user.profile.link %}
+                            <div class="mt-4">
+                                <a href="{{ user.profile.link }}" target="_blank" class="text-info text-decoration-none fw-bold">
+                                    🌐 SITIO WEB / PORTFOLIO
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- DATOS DE CONTACTO -->
+                        <div class="col-md-5 ps-md-5 mt-4 mt-md-0">
+                            <h5 class="text-warning small fw-bold text-uppercase mb-3" style="letter-spacing: 2px;">Contacto</h5>
+                            <p class="text-white-50 mb-1 small text-uppercase">Email</p>
+                            <p class="text-white mb-4">{{ user.email }}</p>
+                            
+                            <p class="text-white-50 mb-1 small text-uppercase">Miembro desde</p>
+                            <p class="text-white">{{ user.date_joined|date:"F Y" }}</p>
+                        </div>
+                    </div>
+
+                    <!-- BOTONES DE ACCIÓN (Lo que pediste) -->
+                    <div class="mt-5 pt-4 border-top border-secondary d-flex flex-wrap gap-3 justify-content-center">
+                        <a href="{% url 'profile_edit' %}" class="btn btn-warning fw-bold px-4 py-2">
+                            ✏️ MODIFICAR DATOS Y FOTO
+                        </a>
+                        <a href="{% url 'admin:password_change' %}" class="btn btn-outline-light fw-bold px-4 py-2">
+                            🔐 CAMBIAR CONTRASEÑA
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

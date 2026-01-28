@@ -1,0 +1,51 @@
+{% extends 'pages/base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h2 class="text-warning fw-bold text-uppercase">Mis Conversaciones</h2>
+        <a href="{% url 'enviar_mensaje' %}" class="btn btn-warning fw-bold">＋ NUEVO MENSAJE</a>
+    </div>
+
+    <div class="row">
+        {% for m in mensajes %}
+        <div class="col-12 mb-3">
+            <!-- Cambiamos el color del borde según si es enviado o recibido -->
+            <div class="bg-dark p-4 rounded border {% if m.emisor == request.user %}border-secondary{% else %}border-info{% endif %} shadow-sm" style="border-left: 5px solid {% if m.emisor == request.user %}#6c757d{% else %}#0dcaf0{% endif %} !important;">
+            
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        {% if m.emisor == request.user %}
+                            <span class="badge bg-secondary">ENVIADO A: {{ m.receptor.username }}</span>
+                            <!-- AGREGAMOS ESTOS BOTONES CHIQUITOS -->
+                            <div class="mt-2">
+                                <a href="{% url 'editar_mensaje' m.id %}" class="text-info text-decoration-none small me-3">✏️ Editar</a>
+                                <a href="{% url 'eliminar_mensaje' m.id %}" class="text-danger text-decoration-none small" onclick="return confirm('¿Borrar este mensaje?')">🗑️ Eliminar</a>
+                            </div>
+                        {% else %}
+                            <span class="badge bg-info text-dark">RECIBIDO DE: {{ m.emisor.username }}</span>
+                            ...
+                        {% endif %}
+                    </div>
+                    <small class="text-muted">{{ m.fecha|date:"d/m/Y H:i" }}</small>
+                </div>
+
+                <p class="text-light mt-3 fs-5">{{ m.contenido }}</p>
+
+                <!-- BOTÓN RESPONDER: Solo aparece en los que recibiste -->
+                {% if m.receptor == request.user %}
+                <div class="mt-3 text-end">
+                    <a href="{% url 'enviar_mensaje_a' m.emisor.id %}" class="btn btn-sm btn-outline-warning">
+                        ↩️ RESPONDER A {{ m.emisor.username|upper }}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-5">
+            <p class="text-muted fs-4">No tenés mensajes aún.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
