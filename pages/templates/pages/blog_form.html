@@ -1,0 +1,70 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 bg-dark p-5 rounded border border-secondary shadow-lg">
+            <h2 class="fw-bold text-warning text-center mb-2 text-uppercase">Nueva Bitácora</h2>
+            <p class="text-center text-muted mb-4 small">Completá todos los campos para publicar tu aventura</p>
+            
+            <div style="width: 50px; height: 2px; background: #d4af37; margin: 0 auto 30px auto;"></div>
+
+            <!-- MUY IMPORTANTE: enctype="multipart/form-data" para que la foto se suba -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-warning small text-uppercase" style="letter-spacing: 1px;">
+                        {{ field.label }}
+                    </label>
+                    
+                    <!-- Aquí Django pone el cuadro de texto, el área de texto o el selector de archivo -->
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <div class="text-muted mt-1" style="font-size: 0.7rem;">{{ field.help_text|safe }}</div>
+                    {% endif %}
+
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="text-danger small mt-1">⚠️ {{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-warning w-100 fw-bold py-2">PUBLICAR DESTINO</button>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{% url 'pages' %}" class="btn btn-outline-secondary w-100 py-2">CANCELAR</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilo para que los campos creados por Django se vean 'Premium' */
+    input, textarea, select {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background-color: #262626 !important;
+        border: 1px solid #444 !important;
+        color: white !important;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    input:focus, textarea:focus {
+        border-color: #d4af37 !important;
+        outline: none;
+        box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+    }
+    /* El campo del cuerpo tiene que ser más alto */
+    textarea { height: 180px; }
+</style>
+{% endblock %}

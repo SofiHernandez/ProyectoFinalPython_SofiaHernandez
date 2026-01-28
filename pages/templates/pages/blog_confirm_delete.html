@@ -1,0 +1,21 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-6 bg-dark p-5 rounded border border-danger shadow-lg">
+            <h2 class="text-danger fw-bold text-uppercase mb-4">¿Eliminar esta aventura?</h2>
+            <p class="text-white fs-5 mb-4">
+                Estás a punto de borrar permanentemente: <br>
+                <strong class="text-warning">"{{ object.titulo }}"</strong>
+            </p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger px-5 py-2 fw-bold me-2">SÍ, ELIMINAR</button>
+                <a href="{% url 'blog_detail' object.id %}" class="btn btn-outline-secondary px-5 py-2">CANCELAR</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

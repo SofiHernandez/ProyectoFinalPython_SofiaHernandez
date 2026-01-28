@@ -1,0 +1,124 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- CABECERA: Título y Subtítulo -->
+        <div class="col-12 text-center mb-5">
+            <h1 class="display-3 fw-bold text-uppercase text-white" style="letter-spacing: 2px;">{{ blog.titulo }}</h1>
+            <p class="lead text-warning fw-bold text-uppercase" style="letter-spacing: 4px;">{{ blog.subtitulo }}</p>
+            <p class="text-white small text-uppercase" style="letter-spacing: 2px;"> Publicado por 
+                <span class="fw-bold" style="color: #d4af37;">
+                    {% if blog.autor.get_full_name %}
+                        {{ blog.autor.get_full_name }}
+                    {% else %}
+                        {{ blog.autor.username }}
+                    {% endif %}
+                </span> 
+                | {{ blog.fecha|date:"d/m/Y" }}
+            </p>
+        </div>
+        <!-- BOTONES DE EDICIÓN PARA EL ADMIN -->
+
+    {% if user.is_superuser %}
+        <div class="mb-4 d-flex justify-content-center gap-3">
+            <a href="{% url 'blog_update' blog.id %}" class="btn btn-outline-info btn-sm px-3">
+                ✏️ EDITAR ACTIVIDAD
+            </a>
+            <a href="{% url 'blog_delete' blog.id %}" class="btn btn-outline-danger btn-sm px-3">
+                🗑️ ELIMINAR
+            </a>
+        </div>
+    {% endif %}
+
+        <!-- IMAGEN PRINCIPAL -->
+        <div class="col-12 mb-5">
+            {% if blog.imagen %}
+                <img src="{{ blog.imagen.url }}" class="img-fluid rounded shadow-lg w-100" style="max-height: 550px; object-fit: cover; border: 1px solid #333;">
+            {% endif %}
+        </div>
+
+        <!-- COLUMNA IZQUIERDA: Relato y Servicios -->
+        <div class="col-md-8">
+            <div class="pe-md-4">
+                <h3 class="text-white mb-4 border-bottom border-secondary pb-2">La Experiencia</h3>
+                <div class="fs-5 text-light mb-5" style="line-height: 1.9; white-space: pre-line; text-align: justify;">
+                    {{ blog.cuerpo }}
+                </div>
+
+        <!-- SECCIÓN DE SERVICIOS DINÁMICOS COMPACTOS -->
+            <div class="mb-5">
+                <h4 class="text-warning small fw-bold text-uppercase mb-3" style="letter-spacing: 2px;">
+                    Servicios y Comodidades
+                </h4>
+                
+                <!-- flex-column hace que se pongan uno abajo del otro -->
+                <div class="d-flex flex-column gap-2" style="max-width: 500px;"> 
+                    {% if blog.get_servicios_list %}
+                        {% for servicio in blog.get_servicios_list %}
+                        <div class="px-4 py-3 bg-dark border border-secondary rounded d-flex align-items-center shadow-sm" 
+                            style="border-left: 4px solid #d4af37 !important; transition: 0.3s;">
+                            <span class="me-3" style="font-size: 1.2rem;">✨</span>
+                            <span class="text-white fw-bold text-uppercase" style="font-size: 0.85rem; letter-spacing: 1px;">
+                                {{ servicio }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small italic">Consultar servicios en el lugar.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: Ficha Técnica (Datos Clave) -->
+        <div class="col-md-4">
+            <div class="bg-dark p-4 rounded border border-warning shadow-sm position-sticky" style="top: 100px;">
+                <h4 class="text-warning fw-bold mb-4 text-uppercase small" style="letter-spacing: 2px;">Información Importante</h4>
+                
+                <div class="mb-3">
+                    <span class="text-muted d-block small text-uppercase">Dificultad</span>
+                    <span class="fs-5 text-white">🏔️ Dificultad {{ blog.dificultad }}</span>
+                </div>
+
+                <div class="mb-3">
+                    <span class="text-muted d-block small text-uppercase">Tiempo estimado</span>
+                    <span class="fs-5 text-white">⏱️ {{ blog.duracion }}</span>
+                </div>
+
+                <div class="mb-3">
+                    <span class="text-muted d-block small text-uppercase">Cómo llegar</span>
+                    <span class="fs-5 text-white">🚗 {{ blog.transporte }}</span>
+                </div>
+
+                <div class="mb-4">
+                    <span class="text-muted d-block small text-uppercase">Temporada ideal</span>
+                    <span class="fs-5 text-white">☀️ {{ blog.mejor_epoca }}</span>
+                </div>
+
+                {% if blog.requisitos %}
+                <div class="p-3 bg-danger bg-opacity-10 border border-danger rounded mb-4">
+                    <p class="mb-0 text-danger fw-bold small text-uppercase">⚠️ Requisitos:</p>
+                    <p class="mb-0 text-white small">{{ blog.requisitos }}</p>
+                </div>
+                {% endif %}
+
+                {% if blog.tips %}
+                <div class="mt-4 pt-3 border-top border-secondary">
+                    <p class="text-warning fw-bold small text-uppercase mb-2">💡 Tip del autor:</p>
+                    <p class="text-light fst-italic small">"{{ blog.tips }}"</p>
+                </div>
+                {% endif %}
+
+                <!-- Botón de Mensajería -->
+                <a href="{% url 'enviar_mensaje' %}" class="btn btn-warning w-100 fw-bold mt-4 shadow">📩 ¿DUDAS? CONTACTAR</a>
+            </div>
+        </div>
+
+        <div class="col-12 mt-5 text-center">
+            <a href="{% url 'pages' %}" class="btn btn-outline-secondary px-5">← VOLVER A LA BITÁCORA</a>
+        </div>
+    </div> <!-- CERRAMOS EL row -->
+</div> <!-- CERRAMOS EL container -->
+{% endblock %}

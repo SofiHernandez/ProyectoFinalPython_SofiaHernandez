@@ -1,0 +1,82 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<!-- HEADER DE LA PÁGINA -->
+<div class="py-5" style="background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1544903256-01482184d899?q=80&w=2000&auto=format&fit=crop'); background-size: cover; background-position: center;">
+    <div class="container text-center py-4">
+        <h2 class="display-3 fw-bold text-uppercase" style="letter-spacing: 10px; color: #d4af37;">SOBRE EL PROYECTO</h2>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row align-items-center mb-5">
+        <!-- COLUMNA IMAGEN (Podés poner una foto tuya en San Martín) -->
+        <div class="col-md-5 mb-4 mb-md-0">
+            <div class="position-relative">
+                <img src="/media/blogs/IMG_2389.jpeg" class="img-fluid rounded shadow-lg border border-secondary" alt="Creadora"style="height: 500px; width: 100%; object-fit: cover;">
+                <div class="position-absolute bottom-0 start-0 bg-warning text-dark p-3 fw-bold" style="transform: translate(-20px, 20px);">
+                    EST. 2024
+                </div>
+            </div>
+        </div>
+        
+        <!-- COLUMNA TEXTO -->
+        <div class="col-md-7 ps-md-5">
+            <h3 class="fw-bold mb-4" style="color: #d4af37;">Hola, soy Sofía <span class="text-white">👋</span></h3>
+            <p class="fs-5 text-light" style="line-height: 1.8;">
+                Soy la creadora de este blog de viajes. Este proyecto nació de lapasión por explorar la 
+                <strong>Patagonia Argentina</strong> y contemplar los rincones mágicos que nos ofrece San Martín de los Andes.
+            </p>
+            <p class="fs-5 text-light">
+                Desarrollé esta plataforma usando <strong>Python y Django</strong> para juntar la información sobre 
+                rutas, itinerarios, hospedaje y servicios en un único lugar, facilitando la experiencia a otros viajeros.
+            </p>
+            <p class="fs-5 mt-4">
+            El objetivo del proyecto es que cada viajero tenga una <strong>hoja de ruta clara </strong>para elegir de acuerdo a sus preferencias
+            y disfrutar de nuestras bellezas del sur basandose en esta guia como ayuda.
+            </p>
+        </div>
+    </div>
+
+    <!-- SECCIÓN DE VALORES / MISIÓN -->
+    <div class="row text-center mt-5 g-4">
+        <div class="col-md-4">
+            <div class="p-4 bg-dark border border-secondary rounded h-100">
+                <div class="h1 mb-3">🏔️</div>
+                <h5 class="fw-bold text-warning">EXPLORACIÓN</h5>
+                <p class="small text-white">
+                    Buscamos los rincones menos conocidos para ofrecer experiencias únicas.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 bg-dark border border-secondary rounded h-100">
+                <div class="h1 mb-3">🖥️ </div>
+                <h5 class="fw-bold text-warning">TECNOLOGÍA</h5>
+                <p class="small text-white">Utilizamos el poder de Django para crear una arquitectura web sólida y escalable.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 bg-dark border border-secondary rounded h-100">
+                <div class="h1 mb-3">📍</div>
+                <h5 class="fw-bold text-warning">GUÍA REAL</h5>
+                <p class="small text-white">Contenido basado en viajes reales, con itinerarios verificados paso a paso.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="mt-5 pt-5 text-center border-top border-secondary">
+        <p class="text-uppercase fw-bold mb-4 text-white" style="letter-spacing: 3px;">Tecnologías utilizadas</p>
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+            <span class="badge rounded-pill border border-warning p-2 px-4 text-warning">PYTHON 3.x</span>
+            <span class="badge rounded-pill border border-warning p-2 px-4 text-warning">DJANGO 5.x</span>
+            <span class="badge rounded-pill border border-warning p-2 px-4 text-warning">BOOTSTRAP 5</span>
+            <span class="badge rounded-pill border border-warning p-2 px-4 text-warning">SQLITE3</span>
+        </div>
+    </div>
+    <div class="mt-5 p-4 border border-secondary rounded text-center bg-dark">
+            <h4 class="text-white">Desarrollado por:</h4>
+            <p class="text-warning fw-bold">[Sofía Hernandez]</p>
+    </div>
+</div>
+{% endblock %}

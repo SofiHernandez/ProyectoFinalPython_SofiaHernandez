@@ -1,0 +1,59 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<!-- SECCIÓN HERO -->
+<div style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('/media/blogs/lago_menu.jpg'); 
+            height: 80vh; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; border-bottom: 2px solid #d4af37;">
+    <div>
+        <h1 class="display-1 fw-bold mb-2 text-white">RECORRIENDO</h1>
+        <h2 class="display-4 fw-light mb-4 text-white" style="letter-spacing: 10px;">LA PATAGONIA</h2>
+        <p class="lead mb-4 text-uppercase" style="letter-spacing: 3px; color: white; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Explorá la Patagonia</p>
+    </div>
+</div>
+
+<!-- SECCIÓN DE MENÚ DINÁMICO (Se arma solo según lo que cargues en el Admin) -->
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h3 class="fw-bold text-uppercase text-white" style="letter-spacing: 5px;">Inspiración para tu viaje</h3>
+        <div style="width: 50px; height: 3px; background: #d4af37; margin: 20px auto;"></div>
+    </div>
+
+    <div class="row g-4">
+        <!-- BUCLE FOR: Esto reemplaza los 4 cuadritos manuales y los hace clickeables -->
+        {% for blog in blogs %}
+        <div class="col-md-3">
+            <a href="{% url 'blog_detail' blog.id %}" class="text-decoration-none">
+                <div class="card bg-dark border-0 overflow-hidden shadow-lg h-100 position-relative destination-card">
+                    {% if blog.imagen %}
+                        <img src="{{ blog.imagen.url }}" class="card-img h-100" style="object-fit: cover; opacity: 0.7; min-height: 350px;">
+                    {% endif %}
+                    <div class="card-img-overlay d-flex flex-column justify-content-end p-4 text-center">
+                        <h4 class="card-title fw-bold text-uppercase text-white" style="text-shadow: 2px 2px 10px rgba(0,0,0,1);">{{ blog.titulo }}</h4>
+                        <h5 class="fw-bold text-uppercase text-warning small" style="text-shadow: 2px 2px 10px rgba(0,0,0,1);">{{ blog.subtitulo }}</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <!-- Si no hay nada cargado, avisamos -->
+        <div class="col-12 text-center">
+            <p class="text-muted">Aún no hay actividades cargadas. Entrá al Admin para empezar.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'pages' %}" class="btn btn-outline-warning px-5 py-3 fw-bold">VER TODAS LAS ACTIVIDADES</a>
+    </div>
+</div>
+
+<style>
+    .destination-card { transition: transform 0.4s ease; cursor: pointer; border: 1px solid rgba(255,255,255,0.1) !important; }
+    .destination-card:hover { transform: translateY(-15px); border-color: #d4af37 !important; }
+    .destination-card::after {
+        content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 60%);
+    }
+    .card-img-overlay { z-index: 2; }
+</style>
+{% endblock %}

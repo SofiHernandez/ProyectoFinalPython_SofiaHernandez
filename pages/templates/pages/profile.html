@@ -1,0 +1,74 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="bg-dark p-5 rounded border border-secondary shadow-lg">
+                
+                <!-- CABECERA DEL PERFIL -->
+                <div class="row align-items-center mb-5 border-bottom border-secondary pb-4">
+                    <div class="col-md-3 text-center">
+                        {% if user.profile.imagen %}
+                            <img src="{{ user.profile.imagen.url }}" class="rounded-circle border border-warning shadow" style="width: 150px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <!-- Cambiamos el icono violeta por un circulo gris con borde dorado -->
+                            <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto shadow border border-warning" style="width: 150px; height: 150px;">
+                                <span style="font-size: 5rem; color: #121212;">👤</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-9">
+                        <h2 class="text-warning fw-bold mb-1">MI PERFIL</h2>
+                        <p class="text-light text-uppercase small" style="letter-spacing: 2px;">Configurá tus datos de viajero</p>
+                    </div>
+                </div>
+
+                <!-- FORMULARIO DE EDICIÓN -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <!-- Columna 1: Datos de la Cuenta -->
+                        <div class="col-md-6 pe-md-5 border-end border-secondary">
+                            <h5 class="text-white mb-4 small fw-bold text-uppercase" style="color: #d4af37 !important;">Información de Cuenta</h5>
+                            
+                            <div class="mb-3">
+                                <label class="text-warning small fw-bold">USUARIO</label>
+                                <input type="text" class="form-control bg-dark text-white border-secondary" value="{{ user.username }}" readonly style="opacity: 0.6;">
+                            </div>
+
+                            {{ u_form.as_p }}
+
+                            <div class="mt-4">
+                                <a href="{% url 'admin:password_change' %}" class="btn btn-outline-light btn-sm w-100">
+                                    🔐 CAMBIAR MI CONTRASEÑA
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Columna 2: Bio y Foto -->
+                        <div class="col-md-6 ps-md-5">
+                            <h5 class="text-white mb-4 small fw-bold text-uppercase" style="color: #d4af37 !important;">Tu Biografía y Redes</h5>
+                            
+                            {{ p_form.as_p }}
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <button type="submit" class="btn btn-warning px-5 fw-bold py-3 shadow">GUARDAR TODOS LOS CAMBIOS</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilizamos las etiquetas que genera Django */
+    label { color: #d4af37 !important; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 5px; display: block; }
+    input, textarea { background-color: #1a1a1a !important; color: white !important; border: 1px solid #444 !important; margin-bottom: 15px !important; width: 100%; padding: 10px; border-radius: 5px; }
+    input[type="file"] { border: none !important; padding: 0 !important; color: #888; }
+</style>
+{% endblock %}
